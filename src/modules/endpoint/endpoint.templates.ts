@@ -43,7 +43,7 @@ export async function readContract(app: string, name: string, emit: boolean): Pr
     return { content, file: fileName };
   } catch (err) {
     throw new HTTPException(404, {
-        message: \`Contract file not found at \${contractPath}\`,
+      message: \`Contract file not found at \${contractPath}\`,
     });
   }
 }
@@ -57,7 +57,7 @@ export async function readContractConfig(): Promise<string> {
     return await readFile(configPath, 'utf-8');
   } catch (err) {
     throw new HTTPException(500, {
-        message: \`Failed to read wcontract configuration from \${configPath}\`,
+      message: \`Failed to read wcontract configuration from \${configPath}\`,
     });
   }
 }
