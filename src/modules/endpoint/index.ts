@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 
 import { readConfigFile } from '../../config/config.controllers.js';
 import { Config } from '../../config/config.schemas.js';
-import { askWhereToWriteEndpoint } from './endpoint.services.js';
+import { askWhereToWriteEndpoint } from './endpoint.controllers.js';
 import { endpointsTemplate, indexTemplate, repositoryTemplate } from './endpoint.templates.js';
 
 async function writeDefaultContractEndpoint(config: Config): Promise<void> {
