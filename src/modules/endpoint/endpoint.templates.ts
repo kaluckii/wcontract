@@ -12,9 +12,9 @@ const staticHeaders = (file: string) => ({
 });
 
 const contractStatic = new Hono()
-  .get('/contract', zValidator('query', z.object({ name: z.string() })), async (c) => {
-    const { name } = c.req.valid('query');
-    const { content, file } = await readContract('${appName}', name);
+  .get('/contract', zValidator('query', z.object({ name: z.string(), emit: z.boolean().optional() })), async (c) => {
+    const { name, emit } = c.req.valid('query');
+    const { content, file } = await readContract('${appName}', name, emit ?? false);
     return c.text(content, 200, staticHeaders(file));
   })
 
@@ -31,11 +31,11 @@ export const repositoryTemplate = `// This file is auto-generated. Do not edit m
 import { readFile } from 'fs/promises';
 import { HTTPException } from 'hono/http-exception';
 
-export async function readContract(app: string, name: string): Promise<{ content: string; file: string }> {
+export async function readContract(app: string, name: string, emit: boolean): Promise<{ content: string; file: string }> {
   // This function reads a contract file for the specified app and name.
   // It constructs the file path based on the app and name, and returns the content and file name.
 
-  const fileName = \`\${app}.contract.\${name}.d.ts\`;
+    const fileName = \`\${app}.contract.\${name}\` + (emit ? '.ts' : '.d.ts');
   const contractPath = \`./contract/export/\${fileName}\`;
 
   try {
@@ -48,14 +48,13 @@ export async function readContract(app: string, name: string): Promise<{ content
   }
 }
 
-export async function readContractConfig(): Promise<{ emit: boolean }> {
+export async function readContractConfig(): Promise<string> {
   // This function reads the contract configuration file.
   // It is used to determine fore external synchronization.
 
   const configPath = './wcontract.config.json';
   try {
-      const configContent = await readFile(configPath, 'utf-8');
-      return JSON.parse(configContent);
+      return await readFile(configPath, 'utf-8');
   } catch (err) {
       throw new HTTPException(500, {
           message: \`Failed to read wcontract configuration from \${configPath}\`,

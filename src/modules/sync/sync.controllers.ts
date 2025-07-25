@@ -10,7 +10,7 @@ export async function fetchAndSaveExternalContract(contract: Contract, source: s
   // Fetches an external contract from a given source and saves it to the local contract directory.
   // Assumes the source URL provides a contract file at the endpoint 'contract?name={contract.name}'.
 
-  const response = await fetch(`${source}/contract?name=${contract.name}`);
+  const response = await fetch(`${source}/contract?name=${contract.name}&emit=${contract.emit ?? false}`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch contract ${contract.name} from ${source}: ${response.status}`);
