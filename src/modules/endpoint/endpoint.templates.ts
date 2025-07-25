@@ -54,7 +54,8 @@ export async function readContractConfig(): Promise<string> {
 
   const configPath = './wcontract.config.json';
   try {
-    return await readFile(configPath, 'utf-8');
+    const configContent = await readFile(configPath, 'utf-8');
+    return JSON.parse(configContent);
   } catch (err) {
     throw new HTTPException(500, {
       message: \`Failed to read wcontract configuration from \${configPath}\`,
