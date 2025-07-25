@@ -8,7 +8,7 @@ import { readContract, readContractConfig } from './contract.repository';
 
 const staticHeaders = (file: string) => ({
   'Content-Type': 'application/typescript',
-  'Content-Disposition': 'inline; filename=' + file,
+  'Content-Disposition': \`inline; filename="\${file}"\`
 });
 
 const contractStatic = new Hono()
