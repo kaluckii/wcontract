@@ -35,16 +35,16 @@ export async function readContract(app: string, name: string, emit: boolean): Pr
   // This function reads a contract file for the specified app and name.
   // It constructs the file path based on the app and name, and returns the content and file name.
 
-    const fileName = \`\${app}.contract.\${name}\` + (emit ? '.ts' : '.d.ts');
+  const fileName = \`\${app}.contract.\${name}\` + (emit ? '.ts' : '.d.ts');
   const contractPath = \`./contract/export/\${fileName}\`;
 
   try {
-      const content = await readFile(contractPath, 'utf-8');
-      return { content, file: fileName };
+    const content = await readFile(contractPath, 'utf-8');
+    return { content, file: fileName };
   } catch (err) {
-      throw new HTTPException(404, {
-          message: \`Contract file not found at \${contractPath}\`,
-      });
+    throw new HTTPException(404, {
+        message: \`Contract file not found at \${contractPath}\`,
+    });
   }
 }
 
@@ -54,11 +54,11 @@ export async function readContractConfig(): Promise<string> {
 
   const configPath = './wcontract.config.json';
   try {
-      return await readFile(configPath, 'utf-8');
+    return await readFile(configPath, 'utf-8');
   } catch (err) {
-      throw new HTTPException(500, {
-          message: \`Failed to read wcontract configuration from \${configPath}\`,
-      });
+    throw new HTTPException(500, {
+        message: \`Failed to read wcontract configuration from \${configPath}\`,
+    });
   }
 }
 `;
