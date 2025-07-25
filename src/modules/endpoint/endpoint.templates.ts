@@ -12,9 +12,9 @@ const staticHeaders = (file: string) => ({
 });
 
 const contractStatic = new Hono()
-  .get('/contract', zValidator('query', z.object({ name: z.string(), emit: z.boolean().optional() })), async (c) => {
+  .get('/contract', zValidator('query', z.object({ name: z.string(), emit: z.string() })), async (c) => {
     const { name, emit } = c.req.valid('query');
-    const { content, file } = await readContract('${appName}', name, emit ?? false);
+    const { content, file } = await readContract('${appName}', name, emit === 'true');
     return c.text(content, 200, staticHeaders(file));
   })
 
